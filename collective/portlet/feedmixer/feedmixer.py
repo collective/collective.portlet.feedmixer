@@ -1,69 +1,19 @@
 import itertools
 import time
-
 import feedparser
 
 from zope.interface import implements
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 
-from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from plone.memoize.instance import memoize
 from plone.memoize.interfaces import ICacheChooser
-from zope.component import getUtility
 
-from zope import schema
 from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.validation import validation
 
-from collective.portlet.feedmixer import FeedMixerMessageFactory as _
-
-
-def is_url_list(data):
-    verify=validation.validatorFor("isURL")
-    for url in (x.strip() for x in data.split()):
-        if verify(url)!=True:
-            return False
-    return True
-
-
-class IFeedMixer(IPortletDataProvider):
-    """A portlet which aggregates multiple feeds.
-    """
-    title = schema.TextLine(
-            title=_(u"heading_title",
-                default=u"Portlet Title"),
-            description=_(u"description_title",
-                default=u""),
-            default=u"",
-            required=True)
-
-    cache_timeout = schema.Int(
-            title=_(u"heading_cache_timeout",
-                default=u"Maximum time to cache feed data in seconds."),
-            description=_(u"description_cache_timeout",
-                default=u""),
-            default=900,
-            required=True,
-            min=0)
-
-    items_shown = schema.Int(
-            title=_(u"heading_items_shown",
-                default=u"Number of items to display"),
-            description=_(u"description_items_shown",
-                default=u""),
-            default=5,
-            required=True)
-
-    feeds = schema.ASCII(
-            title=_(u"heading_feeds",
-                default=u"URL(s) for all feeds"),
-            description=_(u"description_feeds",
-                default=u"Enter the URLs for all feeds here, one URL per "
-                        u"line. RSS 0.9x, RSS 1.0, RSS 2.0, CDF, Atom 0.3 "
-                        u"and ATOM 1.0 feeds are supported."),
-            required=True,
-            constraint=is_url_list)
+from collective.portlet.feedmixer.interfaces import IFeedMixer
 
 
 
@@ -154,21 +104,35 @@ class Assignment(base.Assignment):
         feeds=[self.getFeed(url) for url in self.data.feed_urls]
         feeds=[feed for feed in feeds if feed is not None]
         entries=self.mergeEntriesFromFeeds(feeds)
-        return entries[:self.data.items_shown]
+        return entries
 
 
 class Renderer(base.Renderer):
     """Portlet renderer.
     """
-    render = ViewPageTemplateFile('feedmixer.pt')
-        
+    render = ViewPageTemplateFile("feedmixer.pt")
+
+    @property
+    def available(self):
+        return bool(self.data.entries)
+
     @property
     def title(self):
         return self.data.title
 
     @property
     def entries(self):
-        return self.data.entries
+        return self.data.entries[:self.data.items_shown]
+
+    @property
+    def more_url(self):
+        state=getMultiAdapter((self.context, self.request), name="plone_context_state")
+        folder=state.folder()
+        return "%s/++contextportlets++%s/%s/full_feed" % \
+                (folder.absolute_url(),
+                 self.manager.__name__,
+                 self.data.__name__)
+
 
 
 class AddForm(base.AddForm):

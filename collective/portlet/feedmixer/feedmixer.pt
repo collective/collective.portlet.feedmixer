@@ -29,10 +29,11 @@
     </tal:entry>
     
     <dd class="portletFooter">
+      <a href="#"
+          class="tile"
+          tal:attributes="href view/more_url"
+          i18n:translate="box_full_feed_view">More&hellip;</a>
         <span class="portletBotomLeft"></span>
-        <span>
-           Footer
-        </span>
         <span class="portletBottomRight"></span>
     </dd>
 

@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
@@ -15,15 +16,23 @@
        provides="Products.GenericSetup.interfaces.EXTENSION"
        />
  
-     <plone:portlet
-         name="collective.portlet.feedmixer.FeedMixer"
-         interface=".feedmixer.IFeedMixer"
-         assignment=".feedmixer.Assignment"
-         view_permission="zope2.View"
-         edit_permission="cmf.ManagePortal"
-         renderer=".feedmixer.Renderer"
-         addview=".feedmixer.AddForm"
-         editview=".feedmixer.EditForm"
-         />
+    <plone:portlet
+        name="collective.portlet.feedmixer.FeedMixer"
+        interface=".feedmixer.IFeedMixer"
+        assignment=".feedmixer.Assignment"
+        view_permission="zope2.View"
+        edit_permission="cmf.ManagePortal"
+        renderer=".feedmixer.Renderer"
+        addview=".feedmixer.AddForm"
+        editview=".feedmixer.EditForm"
+        />
+
+    <browser:page
+        for=".interfaces.IFeedMixer"
+        name="full_feed"
+        class=".full.FullFeedView"
+        template="full.pt"
+        permission="zope2.View"
+        />
 
 </configure>
