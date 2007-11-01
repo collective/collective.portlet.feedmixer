@@ -6,6 +6,8 @@ from zope.interface import implements
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from plone.memoize.instance import memoize
+from plone.memoize.interfaces import ICacheChooser
+from zope.component import getUtility
 
 from zope import schema
 from zope.formlib import form
@@ -27,14 +29,15 @@ import time
 class FeedCache:
     lifetime = 300
 
-    def __init__(self):
-        self.cache={}
-
     def __getitem__(self, url):
         now=time.time()
 
-        if url in self.cache:
-            (timestamp, feed)=self.cache[url]
+        chooser=getUtility(ICacheChooser)
+        cache=chooser("collective.portlet.feedmixer.FeedCache")
+
+        cached_data=cache.get(url, None)
+        if cached_data is not None:
+            (timestamp, feed)=cached_data
             if now-timestamp<self.lifetime:
                 return feed
 
@@ -42,11 +45,11 @@ class FeedCache:
                     etag=getattr(feed, "etag", None),
                     modified=getattr(feed, "modified", None))
             if newfeed.status==304:
-                self.cache[url]=(now+self.lifetime, feed)
+                cache[url]=(now+self.lifetime, feed)
                 return feed
 
         feed=feedparser.parse(url)
-        self.cache[url]=(now+self.lifetime, feed)
+        cache[url]=(now+self.lifetime, feed)
         return feed
 
 feedcache=FeedCache()
