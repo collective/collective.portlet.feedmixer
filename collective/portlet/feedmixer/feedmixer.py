@@ -30,7 +30,7 @@ class FeedCache:
     def __init__(self):
         self.cache={}
 
-    def get(self, url):
+    def __getitem__(self, url):
         now=time.time()
 
         if url in self.cache:
@@ -39,16 +39,15 @@ class FeedCache:
                 return feed
 
             newfeed=feedparser.parse(url,
-                    etag=feed.etag, modified=feed.modified)
+                    etag=getattr(feed, "etag", None),
+                    modified=getattr(feed, "modified", None))
             if newfeed.status==304:
-                self.cache[url][0]=now+self.lifetime
+                self.cache[url]=(now+self.lifetime, feed)
                 return feed
 
         feed=feedparser.parse(url)
         self.cache[url]=(now+self.lifetime, feed)
         return feed
-
-    __call__ = get
 
 feedcache=FeedCache()
 
@@ -144,7 +143,7 @@ class Renderer(base.Renderer):
         be fresh. Returned feeds have been cleaned using the cleanFeed method.
         """
         global feedcache
-        feed=feedcache.get(url)
+        feed=feedcache[url]
         self.cleanFeed(feed)
         return feed
 
