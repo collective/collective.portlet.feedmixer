@@ -110,11 +110,11 @@ class Assignment(base.Assignment):
 class Renderer(base.Renderer):
     """Portlet renderer.
     """
-    render = ViewPageTemplateFile("feedmixer.pt")
+    render = ViewPageTemplateFile("portlet.pt")
 
     @property
     def available(self):
-        return bool(self.data.entries)
+        return bool(self.data.entries())
 
     @property
     def title(self):
@@ -122,7 +122,7 @@ class Renderer(base.Renderer):
 
     @property
     def entries(self):
-        return self.data.entries[:self.data.items_shown]
+        return self.data.entries()[:self.data.items_shown]
 
     @property
     def more_url(self):

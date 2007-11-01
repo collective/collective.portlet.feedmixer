@@ -18,13 +18,13 @@
  
     <plone:portlet
         name="collective.portlet.feedmixer.FeedMixer"
-        interface=".feedmixer.IFeedMixer"
-        assignment=".feedmixer.Assignment"
+        interface=".portlet.IFeedMixer"
+        assignment=".portlet.Assignment"
         view_permission="zope2.View"
         edit_permission="cmf.ManagePortal"
-        renderer=".feedmixer.Renderer"
-        addview=".feedmixer.AddForm"
-        editview=".feedmixer.EditForm"
+        renderer=".portlet.Renderer"
+        addview=".portlet.AddForm"
+        editview=".portlet.EditForm"
         />
 
     <browser:page
