@@ -24,10 +24,10 @@ setup(name='collective.portlet.feedmixer',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
+          "setuptools",
           "FeedParser",
+          "plone.portlets",
+          "plone.app.portlets",
+          "plone.memoize",
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
       )
