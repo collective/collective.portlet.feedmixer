@@ -22,6 +22,35 @@ from collective.portlet.feedmixer import FeedMixerMessageFactory as _
 # a feed cache can be identified by:
 # - the feed url
 
+import time
+
+class FeedCache:
+    lifetime = 300
+
+    def __init__(self):
+        self.cache={}
+
+    def get(self, url):
+        now=time.time()
+
+        if url in self.cache:
+            (timestamp, feed)=self.cache[url]
+            if now-timestamp<self.lifetime:
+                return feed
+
+            newfeed=feedparser.parse(url,
+                    etag=feed.etag, modified=feed.modified)
+            if newfeed.status==304:
+                self.cache[url][0]=now+self.lifetime
+                return feed
+
+        feed=feedparser.parse(url)
+        self.cache[url]=(now+self.lifetime, feed)
+        return feed
+
+    __call__ = get
+
+feedcache=FeedCache()
 
 
 def is_url_list(data):
@@ -114,7 +143,8 @@ class Renderer(base.Renderer):
         This may return a cached result if the cache entry is considered to
         be fresh. Returned feeds have been cleaned using the cleanFeed method.
         """
-        feed=feedparser.parse(url)
+        global feedcache
+        feed=feedcache.get(url)
         self.cleanFeed(feed)
         return feed
 
@@ -131,17 +161,13 @@ class Renderer(base.Renderer):
         return entries
 
     
-#    @memoize
+    @memoize
     def entries(self):
         feeds=[self.getFeed(url) for url in self.data.feed_urls]
         feeds=[feed for feed in feeds if feed is not None]
         entries=self.mergeEntriesFromFeeds(feeds)
         return entries[:self.data.items_shown]
 
-
-        
-# NOTE: If this portlet does not have any configurable parameters, you can
-# inherit from NullAddForm and remove the form_fields variable.
 
 class AddForm(base.AddForm):
     """Portlet add form.
