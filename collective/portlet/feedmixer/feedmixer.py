@@ -1,4 +1,6 @@
 import itertools
+import time
+
 import feedparser
 
 from zope.interface import implements
@@ -16,44 +18,6 @@ from Products.validation import validation
 
 from collective.portlet.feedmixer import FeedMixerMessageFactory as _
 
-# we want to cache feeds. There are several things we can use:
-# - feedparser can use an etag
-# - feedparser can use the http modification time
-# - a minimum refresh time
-
-# a feed cache can be identified by:
-# - the feed url
-
-import time
-
-class FeedCache:
-    lifetime = 300
-
-    def __getitem__(self, url):
-        now=time.time()
-
-        chooser=getUtility(ICacheChooser)
-        cache=chooser("collective.portlet.feedmixer.FeedCache")
-
-        cached_data=cache.get(url, None)
-        if cached_data is not None:
-            (timestamp, feed)=cached_data
-            if now-timestamp<self.lifetime:
-                return feed
-
-            newfeed=feedparser.parse(url,
-                    etag=getattr(feed, "etag", None),
-                    modified=getattr(feed, "modified", None))
-            if newfeed.status==304:
-                cache[url]=(now+self.lifetime, feed)
-                return feed
-
-        feed=feedparser.parse(url)
-        cache[url]=(now+self.lifetime, feed)
-        return feed
-
-feedcache=FeedCache()
-
 
 def is_url_list(data):
     verify=validation.validatorFor("isURL")
@@ -61,6 +25,7 @@ def is_url_list(data):
         if verify(url)!=True:
             return False
     return True
+
 
 class IFeedMixer(IPortletDataProvider):
     """A portlet which aggregates multiple feeds.
@@ -72,6 +37,15 @@ class IFeedMixer(IPortletDataProvider):
                 default=u""),
             default=u"",
             required=True)
+
+    cache_timeout = schema.Int(
+            title=_(u"heading_cache_timeout",
+                default=u"Maximum time to cache feed data in seconds."),
+            description=_(u"description_cache_timeout",
+                default=u""),
+            default=900,
+            required=True,
+            min=0)
 
     items_shown = schema.Int(
             title=_(u"heading_items_shown",
@@ -104,27 +78,19 @@ class Assignment(base.Assignment):
     title = u"Feed Viewer"
     feeds = u""
     items_shown = 5
+    cache_timeout = 900
 
-    def __init__(self, title=title, feeds=feeds, items_shown=items_shown):
+    def __init__(self, title=title, feeds=feeds, items_shown=items_shown,
+            cache_timeout=cache_timeout):
         self.title=title
         self.feeds=feeds
         self.items_shown=items_shown
+        self.cache_timeout=cache_timeout
         
     @property        
     def feed_urls(self):
         return (url.strip() for url in self.feeds.split())
         
-
-
-class Renderer(base.Renderer):
-    """Portlet renderer.
-    """
-    render = ViewPageTemplateFile('feedmixer.pt')
-        
-    @property
-    def title(self):
-        return self.data.title
-
 
     def cleanFeed(self, feed):
         """Sanitize the feed.
@@ -145,9 +111,29 @@ class Renderer(base.Renderer):
         This may return a cached result if the cache entry is considered to
         be fresh. Returned feeds have been cleaned using the cleanFeed method.
         """
-        global feedcache
-        feed=feedcache[url]
+        now=time.time()
+
+        chooser=getUtility(ICacheChooser)
+        cache=chooser("collective.portlet.feedmixer.FeedCache")
+
+        cached_data=cache.get(url, None)
+        if cached_data is not None:
+            (timestamp, feed)=cached_data
+            if now-timestamp<self.cache_timeout:
+                return feed
+
+            newfeed=feedparser.parse(url,
+                    etag=getattr(feed, "etag", None),
+                    modified=getattr(feed, "modified", None))
+            if newfeed.status==304:
+                self.cleanFeed(feed)
+                cache[url]=(now+self.cache_timeout, feed)
+                return feed
+
+        feed=feedparser.parse(url)
         self.cleanFeed(feed)
+        cache[url]=(now+self.cache_timeout, feed)
+
         return feed
 
 
@@ -169,6 +155,20 @@ class Renderer(base.Renderer):
         feeds=[feed for feed in feeds if feed is not None]
         entries=self.mergeEntriesFromFeeds(feeds)
         return entries[:self.data.items_shown]
+
+
+class Renderer(base.Renderer):
+    """Portlet renderer.
+    """
+    render = ViewPageTemplateFile('feedmixer.pt')
+        
+    @property
+    def title(self):
+        return self.data.title
+
+    @property
+    def entries(self):
+        return self.data.entries
 
 
 class AddForm(base.AddForm):
