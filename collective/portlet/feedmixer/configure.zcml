@@ -15,6 +15,11 @@
        description="Portlet which can show multiple feeds"
        provides="Products.GenericSetup.interfaces.EXTENSION"
        />
+
+    <utility
+      component=".vocabulary.CacheTimeoutVocabularyFactory"
+      name="collective.portlet.feedmixer.timeouts"
+      />
  
     <plone:portlet
         name="collective.portlet.feedmixer.FeedMixer"

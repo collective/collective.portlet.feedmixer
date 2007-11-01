@@ -12,6 +12,7 @@ def is_url_list(data):
 
 
 
+
 class IFeedMixer(IPortletDataProvider):
     """A portlet which aggregates multiple feeds.
     """
@@ -23,14 +24,15 @@ class IFeedMixer(IPortletDataProvider):
             default=u"",
             required=True)
 
-    cache_timeout = schema.Int(
+    cache_timeout = schema.Choice(
             title=_(u"heading_cache_timeout",
                 default=u"Maximum time to cache feed data in seconds."),
             description=_(u"description_cache_timeout",
                 default=u""),
             default=900,
             required=True,
-            min=0)
+            vocabulary="collective.portlet.feedmixer.timeouts")
+
 
     items_shown = schema.Int(
             title=_(u"heading_items_shown",

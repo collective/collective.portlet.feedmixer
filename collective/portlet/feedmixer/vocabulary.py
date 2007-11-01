@@ -1,0 +1,22 @@
+from zope.app.schema.vocabulary import IVocabularyFactory
+from zope.interface import implements
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
+from collective.portlet.feedmixer import FeedMixerMessageFactory as _
+
+class CacheTimeoutVocabulary(object):
+    """Vocabulary factory for cache timeouts.
+    """
+    implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        return SimpleVocabulary([
+            SimpleTerm(300, _(u"5 minutes")),
+            SimpleTerm(900, _(u"15 minutes")),
+            SimpleTerm(1800, _(u"30 minutes")),
+            SimpleTerm(3600, _(u"1 hour")),
+            SimpleTerm(86400, _(u"24 hours")),
+            ])
+
+CacheTimeoutVocabularyFactory = CacheTimeoutVocabulary()
+
