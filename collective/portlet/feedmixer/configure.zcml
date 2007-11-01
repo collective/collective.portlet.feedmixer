@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.portlet.feedmixer">
+
+    <five:registerPackage package="." />
+
+    <genericsetup:registerProfile
+       name="default"
+       title="Feed mixer"
+       directory="profiles/default"
+       description="Portlet which can show multiple feeds"
+       provides="Products.GenericSetup.interfaces.EXTENSION"
+       />
+ 
+     <plone:portlet
+         name="collective.portlet.feedmixer.FeedMixer"
+         interface=".feedmixer.IFeedMixer"
+         assignment=".feedmixer.Assignment"
+         view_permission="zope2.View"
+         edit_permission="cmf.ManagePortal"
+         renderer=".feedmixer.Renderer"
+         addview=".feedmixer.AddForm"
+         editview=".feedmixer.EditForm"
+         />
+
+</configure>

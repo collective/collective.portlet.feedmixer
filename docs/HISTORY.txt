@@ -1,0 +1,9 @@
+Changelog for collective.portlet.feedmixer
+
+    (name of developer listed in brackets)
+
+collective.portlet.feedmixer - 1.0 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

@@ -1,0 +1,39 @@
+<dl class="portlet portletfeedmixer"
+    i18n:domain="collective.portlet.feedmixer">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span tal:content="view/title">
+           Header
+        </span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <tal:entry
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+        tal:repeat="entry view/entries">
+        <dd class="portletItem"
+            tal:define="oddrow repeat/entry/odd"
+            tal:attributes="class python:oddrow and 'portletItem even' or 'portletItem odd'">
+
+            <a href=""
+               tal:attributes="href entry/link;
+                               title entry/title">
+                <span tal:replace="entry/title">Title</span>
+                <span class="portletItemDetails"
+                    tal:content="python:toLocalizedTime(entry['updated'])">
+                    Nov 1
+                </span>
+            </a>
+        </dd>
+    </tal:entry>
+    
+    <dd class="portletFooter">
+        <span class="portletBotomLeft"></span>
+        <span>
+           Footer
+        </span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>
