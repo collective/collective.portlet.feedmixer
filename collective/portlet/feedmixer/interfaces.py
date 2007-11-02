@@ -52,3 +52,10 @@ class IFeedMixer(IPortletDataProvider):
             required=True,
             constraint=is_url_list)
 
+    def entries():
+        """Return feed entries for all feeds.
+
+        The entries from all feeds will be combined in a single listed and
+        sorted by publication date.
+        """
+
