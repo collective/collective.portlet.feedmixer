@@ -26,7 +26,7 @@ class IFeedMixer(IPortletDataProvider):
 
     cache_timeout = schema.Choice(
             title=_(u"heading_cache_timeout",
-                default=u"Maximum time to cache feed data in seconds."),
+                default=u"Maximum time to cache feed data"),
             description=_(u"description_cache_timeout",
                 default=u""),
             default=900,
