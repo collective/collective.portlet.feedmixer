@@ -5,7 +5,7 @@ from collective.portlet.feedmixer.portlet import Assignment
 
 class ConstructionTests(unittest.TestCase):
     def testInterface(self):
-        feed=Assignemtn()
+        feed=Assignment()
         verifyObject(IFeedMixer, feed)
 
     def testParameterOrder(self):
