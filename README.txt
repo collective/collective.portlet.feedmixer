@@ -110,3 +110,13 @@ be updated and continue to be used.
 .. _ETAGs: http://en.wikipedia.org/wiki/HTTP_ETag
 .. _memcached: http://www.danga.com/memcached/
 
+
+Copyright and credits
+=====================
+
+collective.portlet.feedmixer is copyright 2007 by `Jarn`_ (formerly known
+as Plone Solutions).
+
+It was written by Wichert Akkerman.
+
+.. _Jarn: http://www.jarn.com/
