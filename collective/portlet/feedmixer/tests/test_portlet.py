@@ -17,18 +17,18 @@ class TestPortlet(TestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
-    def test_portlet_type_registered(self):
+    def testPortletTypeRegistered(self):
         portlet = getUtility(IPortletType,
                 name='collective.portlet.feedmixer.FeedMixer')
         self.assertEquals(portlet.addview,
                 'collective.portlet.feedmixer.FeedMixer')
 
-    def test_interfaces(self):
+    def testInterfaces(self):
         portlet = portlet_mod.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
 
-    def test_invoke_add_view(self):
+    def testInvokeAddView(self):
         portlet = getUtility(IPortletType,
                 name='collective.portlet.feedmixer.FeedMixer')
         mapping = self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
@@ -51,7 +51,7 @@ class TestPortlet(TestCase):
         self.assertEqual(assignment.cache_timeout, 32)
 
 
-    def test_invoke_edit_view(self):
+    def testInvokeEditView(self):
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
 
@@ -72,7 +72,7 @@ class TestPortlet(TestCase):
         self.assertEqual(assignment.items_shown, 16)
         self.assertEqual(assignment.cache_timeout, 32)
 
-    def test_obtain_renderer(self):
+    def testObtainRenderer(self):
         context = self.folder
         request = self.folder.REQUEST
         view = self.folder.restrictedTraverse('@@plone')
@@ -99,7 +99,7 @@ class TestRenderer(TestCase):
         assignment = assignment or portlet_mod.Assignment()
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
-    def test_render(self):
+    def testRender(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
         r = self.renderer(context=self.portal, assignment=portlet_mod.Assignment())
         r = r.__of__(self.folder)
