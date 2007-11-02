@@ -24,7 +24,7 @@ class TestPortlet(TestCase):
                 'collective.portlet.feedmixer.FeedMixer')
 
     def test_interfaces(self):
-        # TODO: Pass any keywoard arguments to the Assignment constructor
+        # TODO: Pass any keyword arguments to the Assignment constructor
         portlet = portlet_mod.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
@@ -58,7 +58,7 @@ class TestPortlet(TestCase):
         view = self.folder.restrictedTraverse('@@plone')
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         
-        # TODO: Pass any keywoard arguments to the Assignment constructor
+        # TODO: Pass any keyword arguments to the Assignment constructor
         assignment = portlet_mod.Assignment()
 
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
@@ -75,12 +75,12 @@ class TestRenderer(TestCase):
         view = view or self.folder.restrictedTraverse('@@plone')
         manager = manager or getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         
-        # TODO: Pass any default keywoard arguments to the Assignment constructor
+        # TODO: Pass any default keyword arguments to the Assignment constructor
         assignment = assignment or portlet_mod.Assignment()
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
     def test_render(self):
-        # TODO: Pass any keywoard arguments to the Assignment constructor
+        # TODO: Pass any keyword arguments to the Assignment constructor
         r = self.renderer(context=self.portal, assignment=portlet_mod.Assignment())
         r = r.__of__(self.folder)
         r.update()
