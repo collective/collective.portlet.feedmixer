@@ -24,7 +24,6 @@ class TestPortlet(TestCase):
                 'collective.portlet.feedmixer.FeedMixer')
 
     def test_interfaces(self):
-        # TODO: Pass any keyword arguments to the Assignment constructor
         portlet = portlet_mod.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
@@ -37,13 +36,21 @@ class TestPortlet(TestCase):
             del mapping[m]
         addview = mapping.restrictedTraverse('+/' + portlet.addview)
 
-        # TODO: Pass a dictionary containing dummy form inputs from the add form
-        addview.createAndAdd(data={})
+        addview.createAndAdd(data=dict(
+            title="Test Title",
+            feeds="Test Feeds",
+            items_shown=16,
+            cache_timeout=32))
 
         self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0], portlet_mod.Assignment))
+        assignment=mapping.values()[0]
+        self.failUnless(isinstance(assignment, portlet_mod.Assignment))
+        self.assertEqual(assignment.title, "Test Title")
+        self.assertEqual(assignment.feeds, "Test Feeds")
+        self.assertEqual(assignment.items_shown, 16)
+        self.assertEqual(assignment.cache_timeout, 32)
 
-    # NOTE: This test can be removed if the portlet has no edit form
+
     def test_invoke_edit_view(self):
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
@@ -52,17 +59,30 @@ class TestPortlet(TestCase):
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
         self.failUnless(isinstance(editview, portlet_mod.EditForm))
 
+        editview.setUpWidgets(True)
+        editview.handle_edit_action.success(dict(
+            title="Test Title",
+            feeds="Test Feeds",
+            items_shown=16,
+            cache_timeout=32))
+        assignment=mapping.values()[0]
+        self.failUnless(isinstance(assignment, portlet_mod.Assignment))
+        self.assertEqual(assignment.title, "Test Title")
+        self.assertEqual(assignment.feeds, "Test Feeds")
+        self.assertEqual(assignment.items_shown, 16)
+        self.assertEqual(assignment.cache_timeout, 32)
+
     def test_obtain_renderer(self):
         context = self.folder
         request = self.folder.REQUEST
         view = self.folder.restrictedTraverse('@@plone')
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         
-        # TODO: Pass any keyword arguments to the Assignment constructor
         assignment = portlet_mod.Assignment()
 
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, portlet_mod.Renderer))
+
 
 class TestRenderer(TestCase):
     
