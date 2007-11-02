@@ -76,11 +76,14 @@ class TestPortlet(TestCase):
         context = self.folder
         request = self.folder.REQUEST
         view = self.folder.restrictedTraverse('@@plone')
-        manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
+        manager = getUtility(IPortletManager, name='plone.rightcolumn',
+                context=self.portal)
         
         assignment = portlet_mod.Assignment()
 
-        renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
+        renderer = getMultiAdapter(
+                (context, request, view, manager, assignment),
+                IPortletRenderer)
         self.failUnless(isinstance(renderer, portlet_mod.Renderer))
 
 
@@ -89,19 +92,23 @@ class TestRenderer(TestCase):
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
-    def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
+    def renderer(self, context=None, request=None, view=None,
+            manager=None, assignment=None):
         context = context or self.folder
         request = request or self.folder.REQUEST
         view = view or self.folder.restrictedTraverse('@@plone')
-        manager = manager or getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
+        manager = manager or getUtility(IPortletManager,
+                name='plone.rightcolumn', context=self.portal)
         
-        # TODO: Pass any default keyword arguments to the Assignment constructor
         assignment = assignment or portlet_mod.Assignment()
-        return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
+        return getMultiAdapter(
+                (context, request, view, manager, assignment),
+                IPortletRenderer)
 
     def testRender(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
-        r = self.renderer(context=self.portal, assignment=portlet_mod.Assignment())
+        r = self.renderer(context=self.portal,
+                assignment=portlet_mod.Assignment())
         r = r.__of__(self.folder)
         r.update()
         output = r.render()
