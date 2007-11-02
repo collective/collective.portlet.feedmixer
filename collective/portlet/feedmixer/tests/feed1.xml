@@ -21,6 +21,13 @@
         <description>Description of feed one item 2</description>
 	<pubDate>Fri, 01 Nov 2007 08:43:29 +0000</pubDate>
 </item>
+<item>
+        <title>Feed One Item Three</title>
+	<guid isPermaLink="false">urn:syndication:098780971123ca356c71f3c0a71446a7</guid>
+        <link>http://test.one/item/3</link>
+        <description>Description of feed one item 3</description>
+	<pubDate>Fri, 01 Nov 2007 02:43:29 +0000</pubDate>
+</item>
 
 </channel>
 </rss>

@@ -109,6 +109,7 @@ class TestRenderer(TestCase):
         r = self.renderer(context=self.portal,
                 assignment=portlet_mod.Assignment(
                     title="Test Title",
+                    items_shown=2,
                     feeds=FEED_ONE))
         r = r.__of__(self.folder)
         r.update()
@@ -120,6 +121,7 @@ class TestRenderer(TestCase):
         self.failUnless("Feed One Item Two" in output)
         self.failUnless("Nov 01, 2007" in output)
         self.failUnless("http://test.one/item/2" in output)
+        self.failUnless("http://test.one/item/3" not in output)
 
         
 def test_suite():
