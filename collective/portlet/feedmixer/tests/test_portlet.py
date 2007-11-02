@@ -8,7 +8,7 @@ from plone.portlets.interfaces import IPortletRenderer
 
 from plone.app.portlets.storage import PortletAssignmentMapping
 
-from collective.portlet.feedmixer import feedmixer
+from collective.portlet.feedmixer import portlet as portlet_mod
 
 from collective.portlet.feedmixer.tests.base import TestCase
 
@@ -18,17 +18,20 @@ class TestPortlet(TestCase):
         self.setRoles(('Manager',))
 
     def test_portlet_type_registered(self):
-        portlet = getUtility(IPortletType, name='collective.portlet.feedmixer.FeedMixer')
-        self.assertEquals(portlet.addview, 'collective.portlet.feedmixer.FeedMixer')
+        portlet = getUtility(IPortletType,
+                name='collective.portlet.feedmixer.FeedMixer')
+        self.assertEquals(portlet.addview,
+                'collective.portlet.feedmixer.FeedMixer')
 
     def test_interfaces(self):
         # TODO: Pass any keywoard arguments to the Assignment constructor
-        portlet = feedmixer.Assignment()
+        portlet = portlet_mod.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
 
     def test_invoke_add_view(self):
-        portlet = getUtility(IPortletType, name='collective.portlet.feedmixer.FeedMixer')
+        portlet = getUtility(IPortletType,
+                name='collective.portlet.feedmixer.FeedMixer')
         mapping = self.portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
         for m in mapping.keys():
             del mapping[m]
@@ -38,16 +41,16 @@ class TestPortlet(TestCase):
         addview.createAndAdd(data={})
 
         self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0], feedmixer.Assignment))
+        self.failUnless(isinstance(mapping.values()[0], portlet_mod.Assignment))
 
     # NOTE: This test can be removed if the portlet has no edit form
     def test_invoke_edit_view(self):
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
 
-        mapping['foo'] = feedmixer.Assignment()
+        mapping['foo'] = portlet_mod.Assignment()
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
-        self.failUnless(isinstance(editview, feedmixer.EditForm))
+        self.failUnless(isinstance(editview, portlet_mod.EditForm))
 
     def test_obtain_renderer(self):
         context = self.folder
@@ -56,10 +59,10 @@ class TestPortlet(TestCase):
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         
         # TODO: Pass any keywoard arguments to the Assignment constructor
-        assignment = feedmixer.Assignment()
+        assignment = portlet_mod.Assignment()
 
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
-        self.failUnless(isinstance(renderer, feedmixer.Renderer))
+        self.failUnless(isinstance(renderer, portlet_mod.Renderer))
 
 class TestRenderer(TestCase):
     
@@ -73,12 +76,12 @@ class TestRenderer(TestCase):
         manager = manager or getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         
         # TODO: Pass any default keywoard arguments to the Assignment constructor
-        assignment = assignment or feedmixer.Assignment()
+        assignment = assignment or portlet_mod.Assignment()
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
     def test_render(self):
         # TODO: Pass any keywoard arguments to the Assignment constructor
-        r = self.renderer(context=self.portal, assignment=feedmixer.Assignment())
+        r = self.renderer(context=self.portal, assignment=portlet_mod.Assignment())
         r = r.__of__(self.folder)
         r.update()
         output = r.render()
