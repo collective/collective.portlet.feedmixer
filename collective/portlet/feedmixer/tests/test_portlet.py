@@ -5,12 +5,12 @@ from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignment
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlets.interfaces import IPortletRenderer
-
 from plone.app.portlets.storage import PortletAssignmentMapping
 
 from collective.portlet.feedmixer import portlet as portlet_mod
-
 from collective.portlet.feedmixer.tests.base import TestCase
+
+from collective.portlet.feedmixer.tests import FEED_ONE
 
 class TestPortlet(TestCase):
 
@@ -106,13 +106,21 @@ class TestRenderer(TestCase):
                 IPortletRenderer)
 
     def testRender(self):
-        # TODO: Pass any keyword arguments to the Assignment constructor
         r = self.renderer(context=self.portal,
-                assignment=portlet_mod.Assignment())
+                assignment=portlet_mod.Assignment(
+                    title="Test Title",
+                    feeds=FEED_ONE))
         r = r.__of__(self.folder)
         r.update()
         output = r.render()
-        # TODO: Test output
+        self.failUnless("Test Title" in output)
+        self.failUnless("Feed One Item One" in output)
+        self.failUnless("Nov 02, 2007" in output)
+        self.failUnless("http://test.one/item/1" in output)
+        self.failUnless("Feed One Item Two" in output)
+        self.failUnless("Nov 01, 2007" in output)
+        self.failUnless("http://test.one/item/2" in output)
+
         
 def test_suite():
     from unittest import TestSuite, makeSuite
