@@ -21,11 +21,20 @@ Installing without buildout
 ---------------------------
 
 First install feedparser. You can install this in either the system
-python path or in the lib/python directory of your Zope instance.
+python path or in the lib/python directory of your Zope instance. If you
+have setuptools installed you can do this using easy_install::
+
+  easy_install FeedParser
+
+If you do not have setuptools you can install it manually using the setup.py
+script in the feedparser source. If you want to install feedparser inside
+your Zope instance instead of system wide you can its ''--prefix='' option
+to install in the ''lib/python'' directory of your Zope instance.
 
 Next you need to install this package. This can also be done by installing
 it in either your system path packages or in the lib/python directory of
-your Zope instance.
+your Zope instance. As with feedparser you can do this using either
+easy_install or via the setup.py script.
 
 After installing the package it needs to be registered in your Zope
 instance.  This can be done by putting a
