@@ -42,6 +42,11 @@ class Assignment(base.Assignment):
         return (url.strip() for url in self.feeds.split())
         
 
+    def Title(self):
+        """Returns the title. The function is used by Plone to render <title> correctly."""
+        return self.title
+        
+
     def cleanFeed(self, feed):
         """Sanitize the feed.
 
