@@ -32,10 +32,17 @@
             </h2>
         </a>
 
-        <p class="discreet" i18n:translate="feed_entry_modified">
-            Published on <span name="publication_time"
+        <p class="discreet">
+            <span tal:condition="exists:entry/author"
+                  tal:omit-tag=""
+                  i18n:translate="feed_entry_author">
+                By <span i18n:name="author" tal:content="entry/author">someone.</span>.
+            </span>
+            <span tal:omit-tag="" i18n:translate="feed_entry_modified">
+                Published on <span name="publication_time"
                     tal:content="python:toLocalizedTime(entry['updated'])">
                     Nov 1</span>.
+            </span>
         </p>
 
         <p tal:replace="structure entry/description">
