@@ -8,6 +8,11 @@
 
     <five:registerPackage package="." />
 
+    <five:implements
+       class=".portlet.Assignment"
+       interface="Products.CMFPlone.interfaces.IHideFromBreadcrumbs"
+       />
+
     <genericsetup:registerProfile
        name="default"
        title="Feed mixer"
