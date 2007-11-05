@@ -36,12 +36,12 @@
             <span tal:condition="exists:entry/author"
                   tal:omit-tag=""
                   i18n:translate="feed_entry_author">
-                  By <span i18n:name="author" tal:replace="entry/author">someone.</span><tal:block condition="exists:entry/feed_title">from <span i18n:name="feed_title" tal:replace="structure entry/feed_title"> feed title</span></tal:block>.
+                  By <span i18n:name="author" tal:replace="entry/author">someone.</span><tal:block condition="exists:entry/feed/title"> from <span i18n:name="feed_title" tal:replace="structure entry/feed/title"> feed title</span></tal:block>.
             </span>
-            <span tal:condition="python:'author' not in entry and 'feed_title' in entry"
+            <span tal:condition="python:'author' not in entry and 'title' in entry['feed']"
                   tal:omit-tag=""
                   i18n:translate="feed_entry_no_author">
-                  From <span i18n:name="feed_title" tal:replace="structure entry/feed_title">feed title</span>.
+                  From <span i18n:name="feed_title" tal:replace="structure entry/feed/title">feed title</span>.
             </span>
             <span tal:omit-tag="" i18n:translate="feed_entry_modified">
                 Published on <span name="publication_time"

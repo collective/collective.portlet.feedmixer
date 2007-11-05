@@ -49,8 +49,7 @@ class Assignment(base.Assignment):
         present and in proper form.
         """
         for entry in feed.entries:
-            if "title" in feed:
-                entry["feed_title"]=feed.title
+            entry["feed"]=feed.feed
             if not "published_parsed" in entry:
                 entry["published_parsed"]=entry["updated_parsed"]
                 entry["published"]=entry["updated"]
