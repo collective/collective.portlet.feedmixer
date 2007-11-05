@@ -3,7 +3,7 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        <span tal:content="view/title">
+        <span tal:content="structure view/title">
            Header
         </span>
         <span class="portletTopRight"></span>
@@ -19,7 +19,7 @@
             <a href=""
                tal:attributes="href entry/link;
                                title entry/title">
-                <span tal:replace="entry/title">Title</span>
+                <span tal:replace="structure entry/title">Title</span>
                 <span class="portletItemDetails"
                     tal:content="python:toLocalizedTime(entry['updated'])">
                     Nov 1

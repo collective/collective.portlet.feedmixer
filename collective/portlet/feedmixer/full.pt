@@ -12,7 +12,7 @@
 
     <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-    <h1 class="documentFirstHeading" tal:content="view/title">
+    <h1 class="documentFirstHeading" tal:content="structure view/title">
         Feed Title
     </h1>
 
@@ -27,7 +27,7 @@
         <a href=""
            tal:attributes="href entry/link;
                            title entry/title">
-            <h2 tal:content="entry/title">
+            <h2 tal:content="structure entry/title">
                 Feed Entry Title
             </h2>
         </a>

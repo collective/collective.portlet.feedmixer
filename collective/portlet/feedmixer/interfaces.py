@@ -3,14 +3,12 @@ from collective.portlet.feedmixer import FeedMixerMessageFactory as _
 from zope import schema
 from Products.validation import validation
 
-def is_url_list(data):
+def isUrlList(data):
     verify=validation.validatorFor("isURL")
     for url in (x.strip() for x in data.split()):
         if verify(url)!=True:
             return False
     return True
-
-
 
 
 class IFeedMixer(IPortletDataProvider):
@@ -50,7 +48,7 @@ class IFeedMixer(IPortletDataProvider):
                         u"line. RSS 0.9x, RSS 1.0, RSS 2.0, CDF, Atom 0.3 "
                         u"and ATOM 1.0 feeds are supported."),
             required=True,
-            constraint=is_url_list)
+            constraint=isUrlList)
 
     def entries():
         """Return feed entries for all feeds.
