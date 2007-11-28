@@ -6,7 +6,7 @@ setup(name='collective.portlet.feedmixer',
       version=version,
       description="Portlet which can show multiple feeds",
       long_description=open("README.txt").read() + \
-                       open("HISTORY.txt").read(),
+                       open("docs/HISTORY.txt").read(),
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",

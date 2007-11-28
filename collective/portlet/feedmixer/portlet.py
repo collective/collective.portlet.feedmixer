@@ -7,7 +7,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 
 from plone.app.portlets.portlets import base
-from plone.memoize.instance import memoize
+from plone.memoize import request
 from plone.memoize.interfaces import ICacheChooser
 
 from zope.formlib import form
@@ -105,7 +105,8 @@ class Assignment(base.Assignment):
         return entries
 
     
-    @memoize
+    @request.cache(get_key=lambda func,self:self.data.feed_urls,
+                   get_request="self.request")
     def entries(self):
         feeds=[self.getFeed(url) for url in self.data.feed_urls]
         feeds=[feed for feed in feeds if feed is not None]

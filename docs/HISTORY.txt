@@ -1,9 +1,16 @@
-Changelog for collective.portlet.feedmixer
+Changelog
+=========
 
-    (name of developer listed in brackets)
+Release 1.1
+-----------
 
-collective.portlet.feedmixer - 1.0 Unreleased
+* Correct caching of mixed feed entries: caching per instance instead of
+  per request meant we would never update our feed as long as the ZODB
+  did not expire the assignment. Instead to cache per request and using the
+  list of feed_urls of the assignment. 
 
-    - Initial package structure.
-      [zopeskel]
+Release 1.0
+-----------
+
+* Initial release.
 
