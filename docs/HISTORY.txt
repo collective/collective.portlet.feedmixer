@@ -1,8 +1,8 @@
 Changelog
 =========
 
-Release 1.2 - Unreleased
-------------------------
+1.2 - 2008-07-10
+----------------
 
 * Fix the "More ..." link of the portlet. We have to store the path to the
   context of the portlet assignment, because plone[.app].portlets doesn't
@@ -11,8 +11,11 @@ Release 1.2 - Unreleased
   will still create wrong urls in subfolders.
   [fschulze]
 
-Release 1.1
------------
+* Added french translation and made some i18n fixes.
+  [glenfant]
+
+1.1 - 2007-11-28
+----------------
 
 * Correct caching of mixed feed entries: caching per instance instead of
   per request meant we would never update our feed as long as the ZODB
@@ -23,8 +26,8 @@ Release 1.1
 * Fix typo in the portletBottomLeft CSS class name.
   [daftdog]
 
-Release 1.0
------------
+1.0 - 2007-11-05
+----------------
 
 * Initial release.
 
