@@ -29,13 +29,16 @@ class Assignment(base.Assignment):
     feeds = u""
     items_shown = 5
     cache_timeout = 900
+    assignment_context_path = None
 
     def __init__(self, title=title, feeds=feeds, items_shown=items_shown,
-            cache_timeout=cache_timeout):
+                 cache_timeout=cache_timeout,
+                 assignment_context_path=assignment_context_path):
         self.title=title
         self.feeds=feeds
         self.items_shown=items_shown
         self.cache_timeout=cache_timeout
+        self.assignment_context_path = assignment_context_path
         
     @property        
     def feed_urls(self):
@@ -133,13 +136,24 @@ class Renderer(base.Renderer):
 
     @property
     def more_url(self):
-        state=getMultiAdapter((self.context, self.request), name="plone_context_state")
-        folder=state.folder()
-        return "%s/++contextportlets++%s/%s/full_feed" % \
-                (folder.absolute_url(),
-                 self.manager.__name__,
-                 self.data.__name__)
-
+        context_path = self.data.assignment_context_path
+        if context_path is not None:
+            state=getMultiAdapter((self.context, self.request), name="plone_portal_state")
+            portal=state.portal()
+            context = portal.unrestrictedTraverse(context_path)
+            return "%s/%s/full_feed" % \
+                    (context.absolute_url(),
+                     self.data.__name__)
+        else:
+            # Feedmixer portlets which were created before the context was
+            # added need to be handled as well. They will still generate
+            # wrong urls in subfolders.
+            state=getMultiAdapter((self.context, self.request), name="plone_context_state")
+            context = state.folder()
+            return "%s/++contextportlets++%s/%s/full_feed" % \
+                    (context.absolute_url(),
+                     self.manager.__name__,
+                     self.data.__name__)
 
 
 class AddForm(base.AddForm):
@@ -148,7 +162,8 @@ class AddForm(base.AddForm):
     form_fields = form.Fields(IFeedMixer)
 
     def create(self, data):
-        return Assignment(**data)
+        path = self.context.__parent__.getPhysicalPath()
+        return Assignment(assignment_context_path='/'.join(path), **data)
 
 
 class EditForm(base.EditForm):
