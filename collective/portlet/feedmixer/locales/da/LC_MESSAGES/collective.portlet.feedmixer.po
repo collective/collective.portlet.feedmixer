@@ -70,3 +70,12 @@ msgstr "Antal overskrifter der vises"
 #: ./interfaces.py:19
 msgid "heading_title"
 msgstr "Titel"
+
+msgid "feed_entry_author"
+msgstr "Af $author fra $feed_title"
+
+msgid "feed_entry_no_author"
+msgstr "Fra $feed_title"
+
+msgid "feed_entry_modified"
+msgstr "Publiceret $publication_time"

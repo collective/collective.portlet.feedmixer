@@ -20,7 +20,7 @@
 
     <div tal:replace="structure provider:plone.abovecontentbody" />
 
-    <tal:entry
+    <tal:entry i18n:domain="collective.portlet.feedmixer"
         tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime"
         tal:repeat="entry view/entries">
 <div class="tileItem visualIEFloatFix">
@@ -46,7 +46,7 @@
                   From <span i18n:name="feed_title" tal:replace="structure entry/feed/title">feed title</span>.
             </span>
             <span tal:omit-tag="" i18n:translate="feed_entry_modified">
-                Published on <span name="publication_time"
+                Published on <span name="publication_time" i18n:name="publication_time"
                     tal:content="python:toLocalizedTime(entry['updated'])">
                     Nov 1</span>.
             </span>
