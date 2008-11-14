@@ -23,16 +23,18 @@
     <tal:entry
         tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime"
         tal:repeat="entry view/entries">
-
-        <a href=""
+<div class="tileItem visualIEFloatFix">
+                          
+        <h2 class="tileHeadline">        
+        <span class="readMoreArrow"><a href="" class="visualIconPadding"
            tal:attributes="href entry/link;
-                           title entry/title">
-            <h2 tal:content="structure entry/title">
+                           title entry/title"
+             tal:content="structure entry/title">
                 Feed Entry Title
-            </h2>
-        </a>
-
-        <p class="discreet">
+            
+        </a></span>
+        </h2>
+        <div class="tileDate">
             <span tal:condition="exists:entry/author"
                   tal:omit-tag=""
                   i18n:translate="feed_entry_author">
@@ -48,11 +50,13 @@
                     tal:content="python:toLocalizedTime(entry['updated'])">
                     Nov 1</span>.
             </span>
-        </p>
+        </div>
 
-        <p tal:replace="structure entry/description">
+        <p class="tileBody" tal:content="structure entry/description">
            This is the entry description itself
        </p>
+       <div class="visualClear"><!-- --></div>
+</div>       
     </tal:entry>
 
     <div tal:replace="structure provider:plone.belowcontentbody" />
