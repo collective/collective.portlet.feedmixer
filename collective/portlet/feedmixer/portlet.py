@@ -2,6 +2,8 @@ import itertools
 import time
 import feedparser
 
+from zope.app.component.hooks import getSite
+
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -15,8 +17,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from collective.portlet.feedmixer.interfaces import IFeedMixer
 
+from plone.portlets.interfaces import IPortletAssignmentMapping
+from plone.portlets.interfaces import ILocalPortletAssignable
 
-
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+ 
 class Assignment(base.Assignment):
     """Portlet assignment.
     
@@ -136,24 +141,22 @@ class Renderer(base.Renderer):
 
     @property
     def more_url(self):
-        context_path = self.data.assignment_context_path
-        if context_path is not None:
-            state=getMultiAdapter((self.context, self.request), name="plone_portal_state")
-            portal=state.portal()
-            context = portal.unrestrictedTraverse(context_path)
-            return "%s/%s/full_feed" % \
-                    (context.absolute_url(),
-                     self.data.__name__)
-        else:
-            # Feedmixer portlets which were created before the context was
-            # added need to be handled as well. They will still generate
-            # wrong urls in subfolders.
-            state=getMultiAdapter((self.context, self.request), name="plone_context_state")
-            context = state.folder()
-            return "%s/++contextportlets++%s/%s/full_feed" % \
-                    (context.absolute_url(),
-                     self.manager.__name__,
-                     self.data.__name__)
+        return "%s/++contextportlets++%s/%s/full_feed" % \
+               (self.assignment_context.absolute_url(),
+                self.manager.__name__,
+                self.data.__name__)
+
+    @property
+    def assignment_context(self):
+        context = getSite().unrestrictedTraverse(
+            '/'.join(self.context.getPhysicalPath()))
+        while not IPloneSiteRoot.providedBy(context):
+            if ILocalPortletAssignable.providedBy(context) and \
+                   self.data in getMultiAdapter((context, self.manager),
+                                                IPortletAssignmentMapping).values():
+                break
+            context = context.aq_parent
+        return context # content on which the portlet is assigned or portal
 
 
 class AddForm(base.AddForm):
