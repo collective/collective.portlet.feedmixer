@@ -50,7 +50,7 @@
             </span>
         </p>
 
-        <p tal:replace="structure entry/description">
+        <p tal:replace="structure entry/description|nothing">
            This is the entry description itself
        </p>
     </tal:entry>
