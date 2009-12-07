@@ -4,12 +4,19 @@ Changelog
 1.4 - unreleased
 ----------------
 
+* Explicitly include plone.app.portlets' ZCML to ensure the plone.portlet
+  directive works in all cases.
+  [hannosch]
+
 * Added Spanish translation
   [macagua]
 
 1.3 - 2009-04-03
 ----------------
-* Fix the full_feed view to have fallback when getting description from an feed item as it is not a required field in the rss2 standard [martior]
+
+* Fix the full_feed view to have fallback when getting description from an feed
+  item as it is not a required field in the rss2 standard.
+  [martior]
 
 1.2 - 2008-07-10
 ----------------

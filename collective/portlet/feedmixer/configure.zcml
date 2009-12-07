@@ -7,6 +7,8 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.portlet.feedmixer">
 
+    <include package="plone.app.portlets" />
+
     <five:registerPackage package="." />
 
     <five:implements
