@@ -3,9 +3,9 @@
 
     <div class="portletHeader">
         <span class="portletTopLeft"></span>
-        <span tal:content="structure view/title">
+        <h2 tal:content="structure view/title">
            Header
-        </span>
+        </h2>
         <span class="portletTopRight"></span>
     </div>
 
