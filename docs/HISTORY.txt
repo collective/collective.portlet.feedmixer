@@ -11,6 +11,19 @@ Changelog
 * Added Spanish translation
   [macagua]
 
+* Added ability to show the article summary
+  [trs22]
+
+* Added ability to display an image attached in the 'enclosure' field of 
+  the RSS feed
+  [trs22]
+
+* Added ability to show/hide header, date, summary, image and footer
+  [trs22]
+
+* Fixed even/odd portletItem class logic, and added a 'first' class
+  [trs22]
+
 1.3 - 2009-04-03
 ----------------
 

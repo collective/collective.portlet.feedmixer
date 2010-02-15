@@ -28,15 +28,27 @@ class Assignment(base.Assignment):
     title = u"Feed Viewer"
     feeds = u""
     items_shown = 5
+    show_header = False
+    show_date = False
+    show_summary = False
+    show_image = False
+    show_footer = False
     cache_timeout = 900
     assignment_context_path = None
 
     def __init__(self, title=title, feeds=feeds, items_shown=items_shown,
+                 show_header=show_header, show_date=show_date, show_summary=show_summary, 
+                 show_image=show_image, show_footer=show_footer,
                  cache_timeout=cache_timeout,
                  assignment_context_path=assignment_context_path):
         self.title=title
         self.feeds=feeds
         self.items_shown=items_shown
+        self.show_header=show_header
+        self.show_date=show_date
+        self.show_summary=show_summary
+        self.show_image=show_image
+        self.show_footer=show_footer
         self.cache_timeout=cache_timeout
         self.assignment_context_path = assignment_context_path
         
@@ -89,6 +101,11 @@ class Assignment(base.Assignment):
                 cache[url]=(now+self.cache_timeout, feed)
                 return feed
 
+            if len(newfeed.get('entries', [])) == 0 or newfeed.status == 404:
+                # If we don't have any entries (i.e. the feed is blank) 
+                # then just return the cached copy.
+                return feed
+
         feed=feedparser.parse(url)
         self.cleanFeed(feed)
         cache[url]=(now+self.cache_timeout, feed)
@@ -129,6 +146,26 @@ class Renderer(base.Renderer):
     @property
     def title(self):
         return self.data.title
+
+    @property
+    def show_header(self):
+        return self.data.show_header
+
+    @property
+    def show_date(self):
+        return self.data.show_date
+
+    @property
+    def show_summary(self):
+        return self.data.show_summary
+
+    @property
+    def show_image(self):
+        return self.data.show_image
+
+    @property
+    def show_footer(self):
+        return self.data.show_footer
 
     @property
     def entries(self):

@@ -42,35 +42,74 @@ msgstr ""
 msgid "box_full_feed_view"
 msgstr ""
 
-#: ./interfaces.py:29
+#: ./interfaces.py:28
 msgid "description_cache_timeout"
 msgstr ""
 
-#: ./interfaces.py:49
+#: ./interfaces.py:85
 msgid "description_feeds"
 msgstr ""
 
-#: ./interfaces.py:39
+#: ./interfaces.py:37
 msgid "description_items_shown"
 msgstr ""
 
-#: ./interfaces.py:21
+#: ./interfaces.py:20
 msgid "description_title"
 msgstr ""
 
-#: ./interfaces.py:27
+#: ./interfaces.py:26
 msgid "heading_cache_timeout"
 msgstr ""
 
-#: ./interfaces.py:45
+#: ./interfaces.py:83
 msgid "heading_feeds"
 msgstr ""
 
-#: ./interfaces.py:37
+#: ./interfaces.py:35
 msgid "heading_items_shown"
 msgstr ""
 
-#: ./interfaces.py:19
+#: ./interfaces.py:18
 msgid "heading_title"
 msgstr ""
 
+#: ./interfaces.py:43
+msgid "heading_show_header"
+msgstr ""
+
+#: ./interfaces.py:45
+msgid "description_show_header"
+msgstr ""
+
+#: ./interfaces.py:51
+msgid "heading_show_date"
+msgstr ""
+
+#: ./interfaces.py:53
+msgid "description_show_date"
+msgstr ""
+
+#: ./interfaces.py:59
+msgid "heading_show_summary"
+msgstr ""
+
+#: ./interfaces.py:61
+msgid "description_show_summary"
+msgstr ""
+
+#: ./interfaces.py:67
+msgid "heading_show_image"
+msgstr ""
+
+#: ./interfaces.py:69
+msgid "description_show_image"
+msgstr ""
+
+#: ./interfaces.py:75
+msgid "heading_show_footer"
+msgstr ""
+
+#: ./interfaces.py:77
+msgid "description_show_footer"
+msgstr ""

@@ -31,13 +31,52 @@ class IFeedMixer(IPortletDataProvider):
             required=True,
             vocabulary="collective.portlet.feedmixer.timeouts")
 
-
     items_shown = schema.Int(
             title=_(u"heading_items_shown",
                 default=u"Number of items to display"),
             description=_(u"description_items_shown",
                 default=u""),
             default=5,
+            required=True)
+
+    show_header = schema.Bool(
+            title=_(u"heading_show_header",
+                default=u"Show Portlet Header"),
+            description=_(u"description_show_header",
+                default=u""),
+            default=True,
+            required=True)
+
+    show_date = schema.Bool(
+            title=_(u"heading_show_date",
+                default=u"Show RSS Feed Item Date"),
+            description=_(u"description_show_date",
+                default=u""),
+            default=True,
+            required=True)
+
+    show_summary = schema.Bool(
+            title=_(u"heading_show_summary",
+                default=u"Show Article Summary"),
+            description=_(u"description_show_summary",
+                default=u""),
+            default=False,
+            required=True)
+
+    show_image = schema.Bool(
+            title=_(u"heading_show_image",
+                default=u"Show Article Image"),
+            description=_(u"description_show_image",
+                default=u""),
+            default=False,
+            required=True)
+
+    show_footer = schema.Bool(
+            title=_(u"heading_show_footer",
+                default=u"Show Portlet Footer"),
+            description=_(u"description_show_footer",
+                default=u""),
+            default=True,
             required=True)
 
     feeds = schema.ASCII(
