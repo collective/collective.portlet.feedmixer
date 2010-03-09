@@ -98,7 +98,7 @@ class Assignment(base.Assignment):
                     modified=getattr(feed, "modified", None))
             if newfeed.status==304:
                 self.cleanFeed(feed)
-                cache[url]=(now+self.cache_timeout, feed)
+                cache[url]=(now, feed)
                 return feed
 
             if len(newfeed.get('entries', [])) == 0 or newfeed.status == 404:
@@ -108,7 +108,7 @@ class Assignment(base.Assignment):
 
         feed=feedparser.parse(url)
         self.cleanFeed(feed)
-        cache[url]=(now+self.cache_timeout, feed)
+        cache[url]=(now, feed)
 
         return feed
 

@@ -4,6 +4,9 @@ Changelog
 1.4 - unreleased
 ----------------
 
+* Fixed a bug that made cache duration twice as long as requested.
+  [erikrose]
+
 * Explicitly include plone.app.portlets' ZCML to ensure the plone.portlet
   directive works in all cases.
   [hannosch]
