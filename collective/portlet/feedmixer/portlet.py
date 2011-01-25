@@ -39,16 +39,14 @@ class Assignment(base.Assignment):
         self.items_shown=items_shown
         self.cache_timeout=cache_timeout
         self.assignment_context_path = assignment_context_path
-        
-    @property        
+
+    @property
     def feed_urls(self):
         return (url.strip() for url in self.feeds.split())
-        
 
     def Title(self):
         """Returns the title. The function is used by Plone to render <title> correctly."""
         return self.title
-        
 
     def cleanFeed(self, feed):
         """Sanitize the feed.
@@ -59,9 +57,13 @@ class Assignment(base.Assignment):
         for entry in feed.entries:
             entry["feed"]=feed.feed
             if not "published_parsed" in entry:
-                entry["published_parsed"]=entry["updated_parsed"]
-                entry["published"]=entry["updated"]
-
+                if "updated_parsed" in entry:
+                    entry["published_parsed"]=entry["updated_parsed"]
+                else:
+                    # If we don't have "updated" on the entries,
+                    # let's hope we have it on the feed.
+                    entry["published_parsed"] = feed["updated"]
+                    entry["updated"] = ''
 
 
     def getFeed(self, url):
@@ -107,7 +109,6 @@ class Assignment(base.Assignment):
 
         return entries
 
-    
     @request.cache(get_key=lambda func,self:self.data.feed_urls,
                    get_request="self.request")
     def entries(self):
