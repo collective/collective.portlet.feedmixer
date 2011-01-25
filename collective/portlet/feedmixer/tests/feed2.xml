@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+
+<channel>
+	<title>Test Feed Two</title>
+        <link>http://test.two//</link>
+	<language>en</language>
+	<description>Test Description One </description>
+
+<item>
+        <title>Feed Two Item One</title>
+	<guid isPermaLink="false">urn:syndication:9smfnjshwe522a356c71f3c0a71446a7</guid>
+        <link>http://test.two/item/1</link>
+        <description>Description of feed one item 1</description>
+	<pubDate>Fri, 02 Nov 2007 08:43:29 +0000</pubDate>
+</item>
+<item>
+        <title>Feed Two Item Two</title>
+	<guid isPermaLink="false">urn:syndication:wlrc234cd24f214jkh71f3c0a71446a7</guid>
+        <link>http://test.two/item/2</link>
+        <description>Description of feed one item 2</description>
+	<pubDate>Fri, 01 Nov 2007 08:43:29 +0000</pubDate>
+</item>
+<item>
+        <title>Feed Two Item Three</title>
+	<guid isPermaLink="false">urn:syndication:75cfrtw859n8w759872353c0a71446a7</guid>
+        <link>http://test.two/item/3</link>
+        <description>Description of feed one item 3</description>
+	<pubDate>Fri, 01 Nov 2007 02:43:29 +0000</pubDate>
+</item>
+
+</channel>
+</rss>

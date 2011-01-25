@@ -1,0 +1,50 @@
+Changelog
+=========
+
+1.4 - unreleased
+----------------
+
+* Explicitly include plone.app.portlets' ZCML to ensure the plone.portlet
+  directive works in all cases.
+  [hannosch]
+
+* Added Spanish translation
+  [macagua]
+
+1.3 - 2009-04-03
+----------------
+
+* Fix the full_feed view to have fallback when getting description from an feed
+  item as it is not a required field in the rss2 standard.
+  [martior]
+
+1.2 - 2008-07-10
+----------------
+
+* Fix the "More ..." link of the portlet. We have to store the path to the
+  context of the portlet assignment, because plone[.app].portlets doesn't
+  expose it. This workaround was taken from ely.portlets.image.
+  This will only work for newly created feedmixer portlets, existing ones
+  will still create wrong urls in subfolders.
+  [fschulze]
+
+* Added french translation and made some i18n fixes.
+  [glenfant]
+
+1.1 - 2007-11-28
+----------------
+
+* Correct caching of mixed feed entries: caching per instance instead of
+  per request meant we would never update our feed as long as the ZODB
+  did not expire the assignment. Instead to cache per request and using the
+  list of feed_urls of the assignment. 
+  [wichert]
+
+* Fix typo in the portletBottomLeft CSS class name.
+  [daftdog]
+
+1.0 - 2007-11-05
+----------------
+
+* Initial release.
+

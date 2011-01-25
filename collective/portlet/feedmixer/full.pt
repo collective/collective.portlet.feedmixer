@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+<body>
+<metal:main fill-slot="main">
+
+    <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+    <h1 class="documentFirstHeading" tal:content="structure view/title">
+        Feed Title
+    </h1>
+
+    <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+    <div tal:replace="structure provider:plone.abovecontentbody" />
+
+    <tal:entry
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+        tal:repeat="entry view/entries">
+
+        <a href=""
+           tal:attributes="href entry/link;
+                           title entry/title">
+            <h2 tal:content="structure entry/title">
+                Feed Entry Title
+            </h2>
+        </a>
+
+        <p class="discreet">
+            <span tal:condition="exists:entry/author"
+                  tal:omit-tag=""
+                  i18n:translate="feed_entry_author">
+                  By <span i18n:name="author" tal:replace="entry/author">someone.</span><tal:block condition="exists:entry/feed/title"> from <span i18n:name="feed_title" tal:replace="structure entry/feed/title"> feed title</span></tal:block>.
+            </span>
+            <span tal:condition="python:'author' not in entry and 'title' in entry['feed']"
+                  tal:omit-tag=""
+                  i18n:translate="feed_entry_no_author">
+                  From <span i18n:name="feed_title" tal:replace="structure entry/feed/title">feed title</span>.
+            </span>
+            <span tal:omit-tag="" i18n:translate="feed_entry_modified">
+                Published on <span name="publication_time"
+                    tal:content="python:toLocalizedTime(entry['updated'])">
+                    Nov 1</span>.
+            </span>
+        </p>
+
+        <p tal:replace="structure entry/description|nothing">
+           This is the entry description itself
+       </p>
+    </tal:entry>
+
+    <div tal:replace="structure provider:plone.belowcontentbody" />
+</metal:main>
+</body>
+</html>
+

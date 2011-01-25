@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<portlets>
+ <portlet
+   addview="collective.portlet.feedmixer.FeedMixer"
+   title="Feed mixer"
+   description="Portlet which can show multiple feeds"
+   />
+</portlets>
