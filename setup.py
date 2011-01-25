@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.4'
+version = '1.4-jarn-qt'
 
 setup(name='collective.portlet.feedmixer',
       version=version,
