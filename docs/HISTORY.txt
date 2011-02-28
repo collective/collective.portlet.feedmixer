@@ -4,6 +4,10 @@ Changelog
 1.4 - unreleased
 ----------------
 
+* Fix the full feed's lookup of the feed entries so that the caching decorator
+  can acquire the request from the view as it expects.
+  [davisagli]
+
 * Explicitly include plone.app.portlets' ZCML to ensure the plone.portlet
   directive works in all cases.
   [hannosch]

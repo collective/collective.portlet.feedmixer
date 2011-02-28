@@ -8,4 +8,4 @@ class FullFeedView(BrowserView):
 
     @property
     def entries(self):
-        return self.context.entries
+        return self.aq_acquire('context').entries
