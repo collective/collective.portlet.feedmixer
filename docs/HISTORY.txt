@@ -1,8 +1,9 @@
 Changelog
 =========
 
-1.4 - unreleased
+1.4 - 2011-03-02
 ----------------
+
 * Wrap the full feed's entries in a div so we can visually separate them.
   [jbaldivieso]
 
