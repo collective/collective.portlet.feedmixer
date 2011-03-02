@@ -8,8 +8,7 @@
 <metal:block fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)" />
 <body>
-<metal:main fill-slot="main"
-    tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+<metal:main fill-slot="main">
 
     <div tal:replace="structure provider:plone.abovecontenttitle" />
 
@@ -21,7 +20,9 @@
 
     <div tal:replace="structure provider:plone.abovecontentbody" />
 
-    <div class="tileItem" tal:repeat="entry view/entries">
+    <div class="feedEntry"
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime"
+        tal:repeat="entry view/entries">
 
         <a href=""
            tal:attributes="href entry/link;
