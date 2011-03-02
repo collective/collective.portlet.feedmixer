@@ -3,6 +3,8 @@ Changelog
 
 1.4 - unreleased
 ----------------
+* Wrap the full feed's entries in a div so we can visually separate them.
+  [jbaldivieso]
 
 * Fix the full feed's lookup of the feed entries so that the caching decorator
   can acquire the request from the view as it expects.
