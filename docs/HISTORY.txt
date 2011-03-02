@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.4 - 2011-03-02
+1.5 - 2011-03-02
 ----------------
 
 * Wrap the full feed's entries in a div so we can visually separate them.
@@ -17,6 +17,13 @@ Changelog
 
 * Added Spanish translation
   [macagua]
+
+1.4 - 2009-11-06
+----------------
+
+* Removed edit permission as this prevents feedmixer portlet being added to a
+  user's dashboard.
+  [matth]
 
 1.3 - 2009-04-03
 ----------------
