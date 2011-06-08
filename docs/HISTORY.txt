@@ -4,6 +4,10 @@ Changelog
 1.6 - unreleased
 ----------------
 
+* Fix bad cache key on entries(). Previously, the repr of a generator object
+  was used. This meant effectively no request caching. Worse, it caused intermittent
+  cache-key overlap with more than one portlet rendered in the same request. 
+  [tmog]
 
 1.5 - 2011-03-02
 ----------------

@@ -108,7 +108,7 @@ class Assignment(base.Assignment):
         return entries
 
     
-    @request.cache(get_key=lambda func,self:self.data.feed_urls,
+    @request.cache(get_key=lambda func,self:self.feeds,
                    get_request="self.request")
     def entries(self):
         feeds=[self.getFeed(url) for url in self.data.feed_urls]
