@@ -1,8 +1,14 @@
 Changelog
 =========
 
-1.6 - unreleased
+1.6 - 2011-09-13
 ----------------
+
+* Make it plone 4 compatible, thanks to Rafahela Garcia Bazzanella for fix [martior]
+
+* Added Portuguese Brazilian transaltions from Rafahela Garcia Bazzanella [martior]
+
+* Direct import of  IVocabularyFactory for Plone 4.1 compatibility. [lewy]
 
 * Fix bad cache key on entries(). Previously, the repr of a generator object
   was used. This meant effectively no request caching. Worse, it caused intermittent
