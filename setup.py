@@ -24,7 +24,7 @@ setup(name='collective.portlet.feedmixer',
       zip_safe=False,
       install_requires=[
           "setuptools",
-          "FeedParser",
+          "feedparser",
           "plone.portlets",
           "plone.app.portlets",
           "plone.memoize",
