@@ -14,11 +14,11 @@ class CacheTimeoutVocabulary(object):
 
     def __call__(self, context):
         return SimpleVocabulary([
-            SimpleTerm(300, title=_(u"5 minutes")),
-            SimpleTerm(900, title=_(u"15 minutes")),
-            SimpleTerm(1800, title=_(u"30 minutes")),
-            SimpleTerm(3600, title=_(u"1 hour")),
-            SimpleTerm(86400, title=_(u"24 hours")),
+            SimpleTerm("300", title=_(u"5 minutes")),
+            SimpleTerm("900", title=_(u"15 minutes")),
+            SimpleTerm("1800", title=_(u"30 minutes")),
+            SimpleTerm("3600", title=_(u"1 hour")),
+            SimpleTerm("86400", title=_(u"24 hours")),
             ])
 
 CacheTimeoutVocabularyFactory = CacheTimeoutVocabulary()

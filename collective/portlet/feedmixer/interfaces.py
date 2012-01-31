@@ -27,10 +27,9 @@ class IFeedMixer(IPortletDataProvider):
                 default=u"Maximum time to cache feed data"),
             description=_(u"description_cache_timeout",
                 default=u""),
-            default=900,
+            default="900",
             required=True,
             vocabulary="collective.portlet.feedmixer.timeouts")
-
 
     items_shown = schema.Int(
             title=_(u"heading_items_shown",

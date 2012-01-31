@@ -40,7 +40,7 @@ class TestPortlet(TestCase):
             title="Test Title",
             feeds="Test Feeds",
             items_shown=16,
-            cache_timeout=32))
+            cache_timeout="32"))
 
         self.assertEquals(len(mapping), 1)
         assignment=mapping.values()[0]
@@ -48,7 +48,7 @@ class TestPortlet(TestCase):
         self.assertEqual(assignment.title, "Test Title")
         self.assertEqual(assignment.feeds, "Test Feeds")
         self.assertEqual(assignment.items_shown, 16)
-        self.assertEqual(assignment.cache_timeout, 32)
+        self.assertEqual(assignment.cache_timeout, "32")
 
 
     def testInvokeEditView(self):
@@ -64,13 +64,13 @@ class TestPortlet(TestCase):
             title="Test Title",
             feeds="Test Feeds",
             items_shown=16,
-            cache_timeout=32))
+            cache_timeout="32"))
         assignment=mapping.values()[0]
         self.failUnless(isinstance(assignment, portlet_mod.Assignment))
         self.assertEqual(assignment.title, "Test Title")
         self.assertEqual(assignment.feeds, "Test Feeds")
         self.assertEqual(assignment.items_shown, 16)
-        self.assertEqual(assignment.cache_timeout, 32)
+        self.assertEqual(assignment.cache_timeout, "32")
 
     def testObtainRenderer(self):
         context = self.folder
@@ -78,7 +78,7 @@ class TestPortlet(TestCase):
         view = self.folder.restrictedTraverse('@@plone')
         manager = getUtility(IPortletManager, name='plone.rightcolumn',
                 context=self.portal)
-        
+
         assignment = portlet_mod.Assignment()
 
         renderer = getMultiAdapter(
@@ -88,7 +88,7 @@ class TestPortlet(TestCase):
 
 
 class TestRenderer(TestCase):
-    
+
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
@@ -99,7 +99,7 @@ class TestRenderer(TestCase):
         view = view or self.folder.restrictedTraverse('@@plone')
         manager = manager or getUtility(IPortletManager,
                 name='plone.rightcolumn', context=self.portal)
-        
+
         assignment = assignment or portlet_mod.Assignment()
         return getMultiAdapter(
                 (context, request, view, manager, assignment),
@@ -123,7 +123,7 @@ class TestRenderer(TestCase):
         self.failUnless("http://test.one/item/2" in output)
         self.failUnless("http://test.one/item/3" not in output)
 
-        
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()

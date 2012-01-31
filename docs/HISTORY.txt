@@ -4,6 +4,11 @@ Changelog
 1.7 - unreleased
 ----------------
 
+- Use strings instead of integers as CacheTimeoutVocabulary values and cast
+  them into integers where needed, so that Generic Setup can import feedmixer
+  portlet.xml configurations, where properties are always handled as strings.
+  [thet]
+
 - remove deprecation warning on plone4.1
   [toutpt]
 

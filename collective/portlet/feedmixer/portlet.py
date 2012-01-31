@@ -19,7 +19,7 @@ from collective.portlet.feedmixer.interfaces import IFeedMixer
 
 class Assignment(base.Assignment):
     """Portlet assignment.
-    
+
     This is what is actually managed through the portlets UI and associated
     with columns.
     """
@@ -28,7 +28,7 @@ class Assignment(base.Assignment):
     title = u"Feed Viewer"
     feeds = u""
     items_shown = 5
-    cache_timeout = 900
+    cache_timeout = "900"
     assignment_context_path = None
 
     def __init__(self, title=title, feeds=feeds, items_shown=items_shown,
@@ -39,16 +39,16 @@ class Assignment(base.Assignment):
         self.items_shown=items_shown
         self.cache_timeout=cache_timeout
         self.assignment_context_path = assignment_context_path
-        
-    @property        
+
+    @property
     def feed_urls(self):
         return (url.strip() for url in self.feeds.split())
-        
+
 
     def Title(self):
         """Returns the title. The function is used by Plone to render <title> correctly."""
         return self.title
-        
+
 
     def cleanFeed(self, feed):
         """Sanitize the feed.
@@ -76,9 +76,10 @@ class Assignment(base.Assignment):
         cache=chooser("collective.portlet.feedmixer.FeedCache")
 
         cached_data=cache.get(url, None)
+        cache_timeout = int(self.cache_timeout)
         if cached_data is not None:
             (timestamp, feed)=cached_data
-            if now-timestamp<self.cache_timeout:
+            if now-timestamp<cache_timeout:
                 return feed
 
             newfeed=feedparser.parse(url,
@@ -86,12 +87,12 @@ class Assignment(base.Assignment):
                     modified=getattr(feed, "modified", None))
             if newfeed.status==304:
                 self.cleanFeed(feed)
-                cache[url]=(now+self.cache_timeout, feed)
+                cache[url]=(now+cache_timeout, feed)
                 return feed
 
         feed=feedparser.parse(url)
         self.cleanFeed(feed)
-        cache[url]=(now+self.cache_timeout, feed)
+        cache[url]=(now+cache_timeout, feed)
 
         return feed
 
@@ -107,7 +108,7 @@ class Assignment(base.Assignment):
 
         return entries
 
-    
+
     @request.cache(get_key=lambda func,self:self.feeds,
                    get_request="self.request")
     def entries(self):
