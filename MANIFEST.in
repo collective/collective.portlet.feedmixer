@@ -1,0 +1,3 @@
+include *.rst
+recursive-include *
+recursive-exclude *.pyc *.pyo
