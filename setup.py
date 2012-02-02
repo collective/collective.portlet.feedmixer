@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.7dev'
+version = '1.7htug1'
 
 setup(name='collective.portlet.feedmixer',
       version=version,
