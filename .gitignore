@@ -1,0 +1,3 @@
+*.pyc
+*.pyo
+collective.portlet.feedmixer.egg-info/
